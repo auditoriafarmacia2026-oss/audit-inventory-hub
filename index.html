@@ -2,15 +2,80 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Audit Inventory Hub</title>
+
+<style>
+body{
+font-family:Arial,sans-serif;
+max-width:800px;
+margin:40px auto;
+padding:20px;
+}
+
+h1{
+color:#1f4e79;
+}
+
+.card{
+border:1px solid #ccc;
+padding:20px;
+border-radius:10px;
+}
+
+button{
+padding:10px 20px;
+margin-top:10px;
+cursor:pointer;
+}
+</style>
+
 </head>
+
 <body>
 
 <h1>Audit Inventory Hub</h1>
 
-<p>Versión 1.0</p>
+<div class="card">
 
-<p>Generador de archivos para HandHeld.</p>
+<h3>Generador HandHeld</h3>
+
+<p>Seleccione archivo de existencias:</p>
+
+<input type="file" id="archivo">
+
+<br>
+
+<button onclick="procesar()">
+Procesar
+</button>
+
+<p id="resultado"></p>
+
+</div>
+
+<script>
+
+function procesar(){
+
+const archivo =
+document.getElementById('archivo').files[0];
+
+if(!archivo){
+
+alert('Seleccione un archivo');
+
+return;
+
+}
+
+document.getElementById('resultado').innerHTML =
+'Archivo cargado: ' + archivo.name +
+'<br><br>Próximo paso: procesar CSV';
+
+}
+
+</script>
 
 </body>
 </html>

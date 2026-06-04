@@ -154,20 +154,25 @@ function procesarArchivo(){
         }
 
         document.getElementById("resultado")
-            .innerHTML =
+.innerHTML =
 
-            "<h3>Resultado</h3>" +
+"<h3>Resultado</h3>" +
 
-            "SKU Totales: <b>" + total + "</b><br>" +
+"SKU Totales: <b>" + total + "</b><br>" +
 
-            "SKU Padres: <b>" + padres + "</b><br>" +
+"SKU Padres: <b>" + padres + "</b><br>" +
 
-            "SKU Hijos: <b>" + hijos + "</b><br>" +
+"SKU Hijos: <b>" + hijos + "</b><br>" +
 
-            "SKU Negativos: <b>" + negativos + "</b><br>" +
+"SKU Negativos: <b>" + negativos + "</b><br>" +
 
-            "SKU Omitidos (0): <b>" + omitidos + "</b>";
+"SKU Omitidos (0): <b>" + omitidos + "</b><br><br>" +
 
+"<button>Descargar HANDHELD.csv</button> " +
+
+"<button>Descargar HIJOS.csv</button> " +
+
+"<button>Descargar NEGATIVOS.csv</button>";
     };
 
     reader.readAsText(archivo);

@@ -3,18 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>Audit Inventory Hub</title>
 
 <style>
+
 body{
-    font-family: Arial, sans-serif;
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 20px;
+    font-family:Arial,sans-serif;
+    max-width:900px;
+    margin:40px auto;
+    padding:20px;
 }
 
 .card{
-    border:1px solid #d0d0d0;
+    border:1px solid #ccc;
     border-radius:10px;
     padding:20px;
 }
@@ -31,9 +33,11 @@ button{
 
 #resultado{
     margin-top:20px;
-    font-weight:bold;
+    line-height:1.8;
 }
+
 </style>
+
 </head>
 
 <body>
@@ -42,13 +46,11 @@ button{
 
 <div class="card">
 
-<h3>Generador HandHeld</h3>
-
-<p>Seleccione el archivo de existencias CSV:</p>
+<h2>Generador HandHeld</h2>
 
 <input type="file" id="archivoCsv" accept=".csv">
 
-<br>
+<br><br>
 
 <button onclick="procesarArchivo()">
 Procesar Archivo
@@ -66,14 +68,109 @@ function procesarArchivo(){
         document.getElementById("archivoCsv").files[0];
 
     if(!archivo){
-        alert("Seleccione un archivo CSV");
+        alert("Seleccione un archivo");
         return;
     }
 
-    document.getElementById("resultado").innerHTML =
-        "Archivo seleccionado:<br><b>" +
-        archivo.name +
-        "</b><br><br>Versión 1.0 lista para procesar.";
+    const reader = new FileReader();
+
+    reader.onload = function(e){
+
+        const texto = e.target.result;
+
+        const lineas =
+            texto.split(/\r?\n/);
+
+        let encabezado = -1;
+
+        for(let i=0;i<lineas.length;i++){
+
+            if(lineas[i].includes("Articulo_Id")){
+
+                encabezado = i;
+                break;
+            }
+        }
+
+        if(encabezado === -1){
+
+            document.getElementById("resultado")
+                .innerHTML =
+                "No se encontró la columna Articulo_Id";
+
+            return;
+        }
+
+        let total = 0;
+        let padres = 0;
+        let hijos = 0;
+        let negativos = 0;
+        let omitidos = 0;
+
+        for(let i=encabezado+1;i<lineas.length;i++){
+
+            const fila =
+                lineas[i].split(",");
+
+            if(fila.length < 6){
+                continue;
+            }
+
+            const sku =
+                fila[3]?.trim();
+
+            const existencia =
+                parseFloat(fila[5]);
+
+            if(!sku){
+                continue;
+            }
+
+            total++;
+
+            if(isNaN(existencia)){
+                continue;
+            }
+
+            if(existencia === 0){
+
+                omitidos++;
+
+            }else if(existencia < 0){
+
+                negativos++;
+
+            }else if(
+                sku.endsWith("H")
+            ){
+
+                hijos++;
+
+            }else{
+
+                padres++;
+            }
+
+        }
+
+        document.getElementById("resultado")
+            .innerHTML =
+
+            "<h3>Resultado</h3>" +
+
+            "SKU Totales: <b>" + total + "</b><br>" +
+
+            "SKU Padres: <b>" + padres + "</b><br>" +
+
+            "SKU Hijos: <b>" + hijos + "</b><br>" +
+
+            "SKU Negativos: <b>" + negativos + "</b><br>" +
+
+            "SKU Omitidos (0): <b>" + omitidos + "</b>";
+
+    };
+
+    reader.readAsText(archivo);
 
 }
 

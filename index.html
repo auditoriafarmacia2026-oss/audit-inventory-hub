@@ -7,29 +7,33 @@
 
 <style>
 body{
-font-family:Arial,sans-serif;
-max-width:800px;
-margin:40px auto;
-padding:20px;
-}
-
-h1{
-color:#1f4e79;
+    font-family: Arial, sans-serif;
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
 }
 
 .card{
-border:1px solid #ccc;
-padding:20px;
-border-radius:10px;
+    border:1px solid #d0d0d0;
+    border-radius:10px;
+    padding:20px;
+}
+
+h1{
+    color:#1f4e79;
 }
 
 button{
-padding:10px 20px;
-margin-top:10px;
-cursor:pointer;
+    padding:10px 20px;
+    margin-top:10px;
+    cursor:pointer;
+}
+
+#resultado{
+    margin-top:20px;
+    font-weight:bold;
 }
 </style>
-
 </head>
 
 <body>
@@ -40,38 +44,36 @@ cursor:pointer;
 
 <h3>Generador HandHeld</h3>
 
-<p>Seleccione archivo de existencias:</p>
+<p>Seleccione el archivo de existencias CSV:</p>
 
-<input type="file" id="archivo">
+<input type="file" id="archivoCsv" accept=".csv">
 
 <br>
 
-<button onclick="procesar()">
-Procesar
+<button onclick="procesarArchivo()">
+Procesar Archivo
 </button>
 
-<p id="resultado"></p>
+<div id="resultado"></div>
 
 </div>
 
 <script>
 
-function procesar(){
+function procesarArchivo(){
 
-const archivo =
-document.getElementById('archivo').files[0];
+    const archivo =
+        document.getElementById("archivoCsv").files[0];
 
-if(!archivo){
+    if(!archivo){
+        alert("Seleccione un archivo CSV");
+        return;
+    }
 
-alert('Seleccione un archivo');
-
-return;
-
-}
-
-document.getElementById('resultado').innerHTML =
-'Archivo cargado: ' + archivo.name +
-'<br><br>Próximo paso: procesar CSV';
+    document.getElementById("resultado").innerHTML =
+        "Archivo seleccionado:<br><b>" +
+        archivo.name +
+        "</b><br><br>Versión 1.0 lista para procesar.";
 
 }
 

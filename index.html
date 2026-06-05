@@ -93,17 +93,23 @@ function procesarArchivo(){
     reader.onload = function(e){
 
         const texto =
-            e.target.result;
+    e.target.result;
 
-        const lineas =
-            texto.split(/\r?\n/);
+const parsed =
+    Papa.parse(texto, {
+        skipEmptyLines: true
+    });
 
+const lineas =
+    parsed.data;
         let encabezado = -1;
 
         for(let i=0;i<lineas.length;i++){
 
-            if(lineas[i].includes("Articulo_Id")){
-
+            if(
+    Array.isArray(lineas[i]) &&
+    lineas[i].includes("Articulo_Id")
+){
                 encabezado = i;
                 break;
             }
@@ -134,7 +140,7 @@ let negativosData = [];
         for(let i=encabezado+1;i<lineas.length;i++){
 
             const fila =
-                lineas[i].split(",");
+    lineas[i];
 
             if(fila.length < 6){
                 continue;
@@ -163,12 +169,7 @@ let negativosData = [];
 
             const descripcion =
                 (fila[4] || "").trim();
-            if(
-    (fila[4] || "").includes('"')
-){
-    console.log(fila);
-}
-
+            
             const existencia =
                 parseFloat(fila[5] || 0);
 
@@ -179,13 +180,6 @@ let negativosData = [];
             total++;
 
             if(existencia === 0){
-
-    console.log(
-        "OMITIDO:",
-        sku,
-        descripcion,
-        fila[5]
-    );
 
     omitidos++;
 

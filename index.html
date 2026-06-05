@@ -160,8 +160,7 @@ function procesarArchivo(){
 
         }
 
-        document.getElementById("resultado")
-.innerHTML =
+        document.getElementById("resultado").innerHTML =
 
 "<h3>Resultado</h3>" +
 
@@ -175,20 +174,11 @@ function procesarArchivo(){
 
 "SKU Omitidos (0): <b>" + omitidos + "</b><br><br>" +
 
-"<button>Descargar HANDHELD.csv</button> " +
+"<button id='btnHandheld'>Descargar HANDHELD.csv</button> " +
 
-"<button>Descargar HIJOS.csv</button> " +
+"<button id='btnHijos'>Descargar HIJOS.csv</button> " +
 
-"<button>Descargar NEGATIVOS.csv</button>";
-
-"<button>Descargar HANDHELD.csv</button> " +
-
-"<button>Descargar HIJOS.csv</button> " +
-
-"<button>Descargar NEGATIVOS.csv</button>";
-    };
-
-    reader.readAsText(archivo);
+"<button id='btnNegativos'>Descargar NEGATIVOS.csv</button>";
 
 }
 

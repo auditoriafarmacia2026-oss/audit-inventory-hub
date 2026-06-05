@@ -3,11 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <title>Audit Inventory Hub</title>
 
 <style>
-
 body{
     font-family:Arial,sans-serif;
     max-width:900px;
@@ -28,6 +26,7 @@ h1{
 button{
     padding:10px 20px;
     margin-top:10px;
+    margin-right:10px;
     cursor:pointer;
 }
 
@@ -35,9 +34,7 @@ button{
     margin-top:20px;
     line-height:1.8;
 }
-
 </style>
-
 </head>
 
 <body>
@@ -47,6 +44,7 @@ button{
 <div class="card">
 
 <h2>Generador HandHeld</h2>
+
 <p>Farmacia:</p>
 
 <input
@@ -55,7 +53,11 @@ id="farmacia"
 placeholder="Ejemplo: K032">
 
 <br><br>
-<input type="file" id="archivoCsv" accept=".csv">
+
+<input
+type="file"
+id="archivoCsv"
+accept=".csv">
 
 <br><br>
 
@@ -102,8 +104,8 @@ function procesarArchivo(){
         if(encabezado === -1){
 
             document.getElementById("resultado")
-                .innerHTML =
-                "No se encontró la columna Articulo_Id";
+            .innerHTML =
+            "No se encontró la columna Articulo_Id";
 
             return;
         }
@@ -162,27 +164,33 @@ function procesarArchivo(){
 
         document.getElementById("resultado").innerHTML =
 
-"<h3>Resultado</h3>" +
+        "<h3>Resultado</h3>" +
 
-"SKU Totales: <b>" + total + "</b><br>" +
+        "SKU Totales: <b>" + total + "</b><br>" +
 
-"SKU Padres: <b>" + padres + "</b><br>" +
+        "SKU Padres: <b>" + padres + "</b><br>" +
 
-"SKU Hijos: <b>" + hijos + "</b><br>" +
+        "SKU Hijos: <b>" + hijos + "</b><br>" +
 
-"SKU Negativos: <b>" + negativos + "</b><br>" +
+        "SKU Negativos: <b>" + negativos + "</b><br>" +
 
-"SKU Omitidos (0): <b>" + omitidos + "</b><br><br>" +
+        "SKU Omitidos (0): <b>" + omitidos + "</b><br><br>" +
 
-"<button id='btnHandheld'>Descargar HANDHELD.csv</button> " +
+        "<button id='btnHandheld'>Descargar HANDHELD.csv</button> " +
 
-"<button id='btnHijos'>Descargar HIJOS.csv</button> " +
+        "<button id='btnHijos'>Descargar HIJOS.csv</button> " +
 
-"<button id='btnNegativos'>Descargar NEGATIVOS.csv</button>";
+        "<button id='btnNegativos'>Descargar NEGATIVOS.csv</button>";
+
+    };
+
+    reader.readAsText(archivo);
 
 }
 
 </script>
+
 <script src="app.js"></script>
+
 </body>
 </html>

@@ -121,11 +121,13 @@ function procesarArchivo(){
         let farmaciaCodigo =
             "DESCONOCIDA";
 
-        let total = 0;
-        let padres = 0;
-        let hijos = 0;
-        let negativos = 0;
-        let omitidos = 0;
+let total = 0;
+let padres = 0;
+let hijos = 0;
+let negativos = 0;
+let omitidos = 0;
+
+let handheldData = [];
 
         for(let i=encabezado+1;i<lineas.length;i++){
 
@@ -185,8 +187,14 @@ function procesarArchivo(){
 
             }else{
 
-                padres++;
-            }
+    padres++;
+
+    handheldData.push([
+        sku,
+        descripcion,
+        existencia
+    ]);
+}
 
         }
 
@@ -228,6 +236,51 @@ function procesarArchivo(){
         "<button id='btnHijos'>Descargar HIJOS.csv</button>" +
 
         "<button id='btnNegativos'>Descargar NEGATIVOS.csv</button>";
+        
+        setTimeout(function(){
+
+    document.getElementById(
+        "btnHandheld"
+    ).onclick = function(){
+
+        let csv =
+            "Articulo_Id,Textbox6,Existencia\n";
+
+        handheldData.forEach(function(item){
+
+            csv +=
+                item[0] + "," +
+                item[1] + "," +
+                item[2] + "\n";
+
+        });
+
+        const blob =
+            new Blob(
+                [csv],
+                {type:"text/csv"}
+            );
+
+        const url =
+            URL.createObjectURL(blob);
+
+        const a =
+            document.createElement("a");
+
+        a.href = url;
+
+        a.download =
+            "HANDHELD_" +
+            farmaciaCodigo +
+            ".csv";
+
+        a.click();
+
+        URL.revokeObjectURL(url);
+
+    };
+
+},100);
 
     };
 

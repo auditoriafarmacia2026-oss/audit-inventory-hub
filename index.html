@@ -163,6 +163,11 @@ let negativosData = [];
 
             const descripcion =
                 (fila[4] || "").trim();
+            if(
+    (fila[4] || "").includes('"')
+){
+    console.log(fila);
+}
 
             const existencia =
                 parseFloat(fila[5] || 0);
@@ -392,7 +397,8 @@ let negativosData = [];
 }
 
 </script>
-
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    
 <script src="app.js"></script>
 
 </body>

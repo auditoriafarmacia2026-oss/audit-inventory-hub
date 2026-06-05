@@ -65,6 +65,8 @@ accept=".csv">
 Procesar Archivo
 </button>
 
+<div id="farmaciaDetectada"></div>
+
 <div id="resultado"></div>
 
 </div>
@@ -91,6 +93,25 @@ alert("Entró a procesar");
 
         const lineas =
             texto.split(/\r?\n/);
+        let farmaciaCodigo = "DESCONOCIDA";
+
+if(lineas.length > encabezado + 1){
+
+    const primeraFila =
+        lineas[encabezado + 1].split(",");
+
+    const sucId =
+        primeraFila[0] || "";
+
+    const match =
+        sucId.match(/K\d{3}/);
+
+    if(match){
+
+        farmaciaCodigo =
+            match[0];
+    }
+}
 
         let encabezado = -1;
 
@@ -111,7 +132,29 @@ alert("Entró a procesar");
 
             return;
         }
+let farmaciaCodigo = "DESCONOCIDA";
 
+const primeraFila =
+    lineas[encabezado + 1].split(",");
+
+const sucId =
+    primeraFila[0] || "";
+
+const match =
+    sucId.match(/K\d{3}/);
+
+if(match){
+
+    farmaciaCodigo =
+        match[0];
+}
+
+document.getElementById("farmaciaDetectada")
+.innerHTML =
+
+"<h3>Farmacia detectada: " +
+farmaciaCodigo +
+"</h3>";
         let total = 0;
         let padres = 0;
         let hijos = 0;

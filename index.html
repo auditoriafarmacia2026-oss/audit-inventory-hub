@@ -1,22 +1,27 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Audit Inventory Hub</title>
+
+<title>Inventory Validation Center</title>
 
 <style>
+
 body{
     font-family:Arial,sans-serif;
-    max-width:900px;
+    max-width:1100px;
     margin:40px auto;
     padding:20px;
+    background:#f5f7fa;
 }
 
 .card{
-    border:1px solid #ccc;
+    background:white;
+    border:1px solid #d9d9d9;
     border-radius:10px;
-    padding:20px;
+    padding:25px;
 }
 
 h1{
@@ -34,25 +39,24 @@ button{
     margin-top:20px;
     line-height:1.8;
 }
+
+#farmaciaDetectada{
+    margin-top:15px;
+    font-weight:bold;
+    color:#1f4e79;
+}
+
 </style>
+
 </head>
 
 <body>
 
-<h1>Audit Inventory Hub</h1>
+<h1>Inventory Validation Center</h1>
 
 <div class="card">
 
-<h2>Generador HandHeld</h2>
-
-<p>Farmacia:</p>
-
-<input
-type="text"
-id="farmacia"
-placeholder="Ejemplo: K032">
-
-<br><br>
+<h2>Generador de Archivos Inventario</h2>
 
 <input
 type="file"
@@ -75,14 +79,12 @@ Procesar Archivo
 
 function procesarArchivo(){
 
-    alert("Entró a procesar");
-
     const archivo =
         document.getElementById("archivoCsv").files[0];
 
     if(!archivo){
 
-        alert("Seleccione un archivo");
+        alert("Seleccione un archivo CSV");
         return;
     }
 
@@ -90,7 +92,8 @@ function procesarArchivo(){
 
     reader.onload = function(e){
 
-        const texto = e.target.result;
+        const texto =
+            e.target.result;
 
         const lineas =
             texto.split(/\r?\n/);
@@ -115,29 +118,8 @@ function procesarArchivo(){
             return;
         }
 
-        let farmaciaCodigo = "DESCONOCIDA";
-
-        const primeraFila =
-            lineas[encabezado + 1].split(",");
-
-        const sucId =
-            primeraFila[0] || "";
-
-        const match =
-            sucId.match(/K\d{3}/);
-
-        if(match){
-
-            farmaciaCodigo =
-                match[0];
-        }
-
-        document.getElementById("farmaciaDetectada")
-        .innerHTML =
-
-        "<h3>Farmacia detectada: " +
-        farmaciaCodigo +
-        "</h3>";
+        let farmaciaCodigo =
+            "DESCONOCIDA";
 
         let total = 0;
         let padres = 0;
@@ -154,8 +136,29 @@ function procesarArchivo(){
                 continue;
             }
 
+            if(
+                farmaciaCodigo === "DESCONOCIDA"
+            ){
+
+                const sucId =
+                    fila[0] || "";
+
+                const match =
+                    sucId.match(/K\d{3}/);
+
+                if(match){
+
+                    farmaciaCodigo =
+                        match[0];
+                }
+
+            }
+
             const sku =
                 (fila[3] || "").trim();
+
+            const descripcion =
+                (fila[4] || "").trim();
 
             const existencia =
                 parseFloat(fila[5] || 0);
@@ -165,10 +168,6 @@ function procesarArchivo(){
             }
 
             total++;
-
-            if(isNaN(existencia)){
-                continue;
-            }
 
             if(existencia === 0){
 
@@ -191,24 +190,42 @@ function procesarArchivo(){
 
         }
 
-        document.getElementById("resultado")
-        .innerHTML =
+        document.getElementById(
+            "farmaciaDetectada"
+        ).innerHTML =
+
+        "Farmacia detectada: " +
+        farmaciaCodigo;
+
+        document.getElementById(
+            "resultado"
+        ).innerHTML =
 
         "<h3>Resultado</h3>" +
 
-        "SKU Totales: <b>" + total + "</b><br>" +
+        "SKU Totales: <b>" +
+        total +
+        "</b><br>" +
 
-        "SKU Padres: <b>" + padres + "</b><br>" +
+        "SKU Padres: <b>" +
+        padres +
+        "</b><br>" +
 
-        "SKU Hijos: <b>" + hijos + "</b><br>" +
+        "SKU Hijos: <b>" +
+        hijos +
+        "</b><br>" +
 
-        "SKU Negativos: <b>" + negativos + "</b><br>" +
+        "SKU Negativos: <b>" +
+        negativos +
+        "</b><br>" +
 
-        "SKU Omitidos (0): <b>" + omitidos + "</b><br><br>" +
+        "SKU Omitidos (0): <b>" +
+        omitidos +
+        "</b><br><br>" +
 
-        "<button id='btnHandheld'>Descargar HANDHELD.csv</button> " +
+        "<button id='btnHandheld'>Descargar HANDHELD.csv</button>" +
 
-        "<button id='btnHijos'>Descargar HIJOS.csv</button> " +
+        "<button id='btnHijos'>Descargar HIJOS.csv</button>" +
 
         "<button id='btnNegativos'>Descargar NEGATIVOS.csv</button>";
 
@@ -219,6 +236,7 @@ function procesarArchivo(){
 }
 
 </script>
+
 <script src="app.js"></script>
 
 </body>

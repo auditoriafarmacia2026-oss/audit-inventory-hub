@@ -74,13 +74,14 @@ Procesar Archivo
 <script>
 
 function procesarArchivo(){
-    
-alert("Entró a procesar");
-    
+
+    alert("Entró a procesar");
+
     const archivo =
         document.getElementById("archivoCsv").files[0];
 
     if(!archivo){
+
         alert("Seleccione un archivo");
         return;
     }
@@ -93,25 +94,6 @@ alert("Entró a procesar");
 
         const lineas =
             texto.split(/\r?\n/);
-        let farmaciaCodigo = "DESCONOCIDA";
-
-if(lineas.length > encabezado + 1){
-
-    const primeraFila =
-        lineas[encabezado + 1].split(",");
-
-    const sucId =
-        primeraFila[0] || "";
-
-    const match =
-        sucId.match(/K\d{3}/);
-
-    if(match){
-
-        farmaciaCodigo =
-            match[0];
-    }
-}
 
         let encabezado = -1;
 
@@ -132,29 +114,31 @@ if(lineas.length > encabezado + 1){
 
             return;
         }
-let farmaciaCodigo = "DESCONOCIDA";
 
-const primeraFila =
-    lineas[encabezado + 1].split(",");
+        let farmaciaCodigo = "DESCONOCIDA";
 
-const sucId =
-    primeraFila[0] || "";
+        const primeraFila =
+            lineas[encabezado + 1].split(",");
 
-const match =
-    sucId.match(/K\d{3}/);
+        const sucId =
+            primeraFila[0] || "";
 
-if(match){
+        const match =
+            sucId.match(/K\d{3}/);
 
-    farmaciaCodigo =
-        match[0];
-}
+        if(match){
 
-document.getElementById("farmaciaDetectada")
-.innerHTML =
+            farmaciaCodigo =
+                match[0];
+        }
 
-"<h3>Farmacia detectada: " +
-farmaciaCodigo +
-"</h3>";
+        document.getElementById("farmaciaDetectada")
+        .innerHTML =
+
+        "<h3>Farmacia detectada: " +
+        farmaciaCodigo +
+        "</h3>";
+
         let total = 0;
         let padres = 0;
         let hijos = 0;
@@ -171,10 +155,10 @@ farmaciaCodigo +
             }
 
             const sku =
-    (fila[3] || "").trim();
+                (fila[3] || "").trim();
 
             const existencia =
-    parseFloat(fila[5] || 0);
+                parseFloat(fila[5] || 0);
 
             if(!sku){
                 continue;
@@ -207,7 +191,8 @@ farmaciaCodigo +
 
         }
 
-        document.getElementById("resultado").innerHTML =
+        document.getElementById("resultado")
+        .innerHTML =
 
         "<h3>Resultado</h3>" +
 
@@ -234,7 +219,6 @@ farmaciaCodigo +
 }
 
 </script>
-
 <script src="app.js"></script>
 
 </body>

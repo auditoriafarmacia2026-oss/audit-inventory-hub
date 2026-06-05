@@ -1,1 +1,1 @@
-alert("Audit Inventory Hub cargado correctamente");
+console.log("Audit Inventory Hub");

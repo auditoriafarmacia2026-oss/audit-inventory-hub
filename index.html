@@ -61,7 +61,7 @@ accept=".csv">
 
 <br><br>
 
-<button onclick="alert('Botón funcionando')">
+<button onclick="procesarArchivo()">
 Procesar Archivo
 </button>
 
@@ -72,7 +72,9 @@ Procesar Archivo
 <script>
 
 function procesarArchivo(){
-
+    
+alert("Entró a procesar");
+    
     const archivo =
         document.getElementById("archivoCsv").files[0];
 
@@ -126,10 +128,10 @@ function procesarArchivo(){
             }
 
             const sku =
-                fila[3]?.trim();
+    (fila[3] || "").trim();
 
             const existencia =
-                parseFloat(fila[5]);
+    parseFloat(fila[5] || 0);
 
             if(!sku){
                 continue;
